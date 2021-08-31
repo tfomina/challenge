@@ -1,4 +1,3 @@
-import React from "react";
 import Stopwatch from "src/tasks/1/Stopwatch";
 
 function App() {

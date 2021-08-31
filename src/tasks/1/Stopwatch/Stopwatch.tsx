@@ -1,21 +1,31 @@
-import React, {Component} from "react";
+import React, {useEffect, useState, useRef} from "react";
 
 interface IStopwatchProps {}
 
 interface IStopwatchState {
     status: boolean;
     runningTime: number;
+    timestamps: string[];
 }
 
-class Stopwatch extends Component<IStopwatchProps, IStopwatchState> {
-    timer: any;
+const initialState: IStopwatchState = {
+    status: false,
+    runningTime: 0,
+    timestamps: [],
+};
 
-    state = {
-        status: false,
-        runningTime: 0,
-    };
+const Stopwatch: React.FC<IStopwatchProps> = () => {
+    const [watchData, setWatchData] = useState<IStopwatchState>(initialState);
 
-    getUnits(time: number) {
+    const timer: any = useRef();
+
+    useEffect(() => {
+        return () => {
+            clearInterval(timer.current);
+        };
+    }, []);
+
+    const getUnits = (time: number) => {
         const seconds = time / 1000;
 
         const min = Math.floor(seconds / 60).toString();
@@ -23,57 +33,57 @@ class Stopwatch extends Component<IStopwatchProps, IStopwatchState> {
         const msec = (seconds % 1).toFixed(3).substring(2);
 
         return `${min}:${sec}:${msec}`;
-    }
-
-    handleClick = () => {
-        this.setState((state) => {
-            if (state.status) {
-                clearInterval(this.timer);
-            } else {
-                const startTime = Date.now() - this.state.runningTime;
-                this.timer = setInterval(() => {
-                    this.setState({runningTime: Date.now() - startTime});
-                });
-            }
-            return {status: !state.status};
-        });
     };
 
-    handleReset = () => {
-        clearInterval(this.timer);
-        this.setState({runningTime: 0, status: false});
+    const handleClick = () => {
+        const {status} = watchData;
+
+        if (!status) {
+            const startTime = Date.now() - watchData.runningTime;
+            timer.current = setInterval(() => {
+                setWatchData((prevState) => ({
+                    ...prevState,
+                    status: true,
+                    runningTime: Date.now() - startTime,
+                }));
+            });
+        } else {
+            clearInterval(timer.current);
+            setWatchData((prevState) => ({...prevState, status: false}));
+        }
     };
 
-    handleLap = () => {
-        console.log(this.getUnits(this.state.runningTime));
+    const handleReset = () => {
+        clearInterval(timer.current);
+        setWatchData({...initialState});
     };
 
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
+    const handleLap = () => {
+        const timestamp = getUnits(watchData.runningTime);
+        console.log(timestamp);
+        setWatchData((prevState) => ({
+            ...prevState,
+            timestamps: [...watchData.timestamps, timestamp],
+        }));
+    };
 
-    // leftPad = (width, n) => {
-    //     if ((n + '').length > width) {
-    //         return n;
-    //     }
-    //     const padding = new Array(width).join('0');
-    //     return (padding + n).slice(-width);
-    // };
-
-    render() {
-        const {status, runningTime} = this.state;
-
-        return (
-            <div>
-                <p>{this.getUnits(runningTime)}</p>
-                <button onClick={this.handleClick}>
-                    {status ? "Stop" : "Start"}
-                </button>
-                <button onClick={this.handleReset}>Reset</button>
-                <button onClick={this.handleLap}>Lap</button>
-            </div>
-        );
-    }
-}
+    return (
+        <>
+            <p>{getUnits(watchData.runningTime)}</p>
+            <button onClick={handleClick}>
+                {watchData.status ? "Stop" : "Start"}
+            </button>
+            <button onClick={handleReset}>Reset</button>
+            <button onClick={handleLap}>Lap</button>
+            {watchData.timestamps.length > 0 && (
+                <ul>
+                    {watchData.timestamps.map((t, index) => (
+                        <li key={index}>{t}</li>
+                    ))}
+                </ul>
+            )}
+        </>
+    );
+};
 
 export default Stopwatch;

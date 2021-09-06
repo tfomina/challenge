@@ -142,42 +142,38 @@ const CommentsList: React.FC = () => {
     );
 };
 
-const Comments: React.FC<{comments: StructuredComment[]}> = ({comments}) => {
-    return (
-        <ul className="comments">
-            {comments.map((comment) => (
-                <li key={comment.id} className="comments__item">
-                    <div className="comment">
-                        <div className="comment__image">
-                            <div
-                                className="image"
-                                style={{
-                                    backgroundImage: `url(
+const Comments: React.FC<{comments: StructuredComment[]}> = ({comments}) => (
+    <ul className="comments">
+        {comments.map((comment) => (
+            <li key={comment.id} className="comments__item">
+                <div className="comment">
+                    <div className="comment__image">
+                        <div
+                            className="image"
+                            style={{
+                                backgroundImage: `url(
                                         ${comment.author.avatar}
                                     )`,
-                                }}
-                            ></div>
-                        </div>
-                        <div className="comment__info">
-                            <div className="comment__info__author">
-                                {comment.author.name}
-                            </div>
-                            <div className="comment__info__date">
-                                {parseDate(comment.created)}
-                            </div>
-                        </div>
-
-                        <div className="comment__likes">{comment.likes}</div>
-                        <div className="comment__text">{comment.text}</div>
+                            }}
+                        ></div>
                     </div>
-                    {comment.children && (
-                        <Comments comments={comment.children} />
-                    )}
-                </li>
-            ))}
-        </ul>
-    );
-};
+                    <div className="comment__info">
+                        <div className="comment__info__author">
+                            {comment.author.name}
+                        </div>
+                        <div className="comment__info__date">
+                            {parseDate(comment.created)}
+                        </div>
+                    </div>
+
+                    <div className="comment__likes">{comment.likes}</div>
+                    <div className="comment__text">{comment.text}</div>
+                </div>
+                {comment.children && <Comments comments={comment.children} />}
+            </li>
+        ))}
+    </ul>
+);
 
 const parseDate = (created: string) => {
     const date = new Date(created);

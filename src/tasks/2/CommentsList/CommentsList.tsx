@@ -147,7 +147,7 @@ const Comments: React.FC<{comments: StructuredComment[]}> = ({comments}) => {
         <ul className="comments">
             {comments.map((comment) => (
                 <li key={comment.id} className="comments__item">
-                    <div className="comments__item comment">
+                    <div className="comment">
                         <div className="comment__image">
                             <div
                                 className="image"

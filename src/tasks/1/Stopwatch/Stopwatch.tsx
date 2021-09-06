@@ -68,7 +68,7 @@ const Stopwatch: React.FC<IStopwatchProps> = () => {
     };
 
     return (
-        <>
+        <div>
             <p>{getUnits(watchData.runningTime)}</p>
             <button onClick={handleClick}>
                 {watchData.status ? "Stop" : "Start"}
@@ -82,7 +82,7 @@ const Stopwatch: React.FC<IStopwatchProps> = () => {
                     ))}
                 </ul>
             )}
-        </>
+        </div>
     );
 };
 

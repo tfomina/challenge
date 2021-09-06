@@ -16,3 +16,117 @@ code {
 button + button {
     margin-left: 4px;
 }
+
+.app {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    gap: 12px;
+}
+
+/* Loader */
+.loader {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.loader div {
+    position: absolute;
+    border: 4px solid #00f;
+    opacity: 1;
+    border-radius: 50%;
+    animation: loader 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.loader div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+@keyframes loader {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+}
+
+/* Comments */
+.comments {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comments__item > .comments {
+    margin-left: 24px;
+}
+
+.comment {
+    display: grid;
+    grid-template-columns: 200px 1fr 100px;
+    grid-template-rows: repeat(2, 1fr) auto;
+    gap: 8px;
+    padding-bottom: 24px;
+}
+
+.comment__image {
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+
+.image {
+    width: 120px;
+    height: 120px;
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 60px;
+}
+
+.comment_info {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.comment__info__author {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.comment__info__date {
+    font-size: 14px;
+    color: #808080;
+}
+
+.comment__likes {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    background-image: url(./assets/like.svg);
+    background-repeat: no-repeat;
+    padding-left: 36px;
+    padding-top: 4px;
+}
+
+.comment__text {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    padding-bottom: 16px;
+    color: #000;
+    font-size: 16px;
+}

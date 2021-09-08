@@ -1,4 +1,4 @@
-export const parseDate = (created: string) => {
+export const formatDate = (created: string) => {
     // return new Date(created).toLocaleString();
 
     const date = new Date(created);

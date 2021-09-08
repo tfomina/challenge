@@ -1,7 +1,7 @@
 import React, {useEffect, useReducer} from "react";
 import getDataRequest from "../data/getDataRequest";
 import Loader from "../Loader";
-import {parseDate} from "../helper";
+import {formatDate} from "../helper";
 
 type Comment = {
     id: number;
@@ -163,7 +163,7 @@ const Comments: React.FC<{comments: StructuredComment[]}> = ({comments}) => (
                             {comment.author.name}
                         </div>
                         <div className="comment__info__date">
-                            {parseDate(comment.created)}
+                            {formatDate(comment.created)}
                         </div>
                     </div>
 
